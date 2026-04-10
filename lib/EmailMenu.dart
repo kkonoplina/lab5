@@ -14,12 +14,8 @@ class _EmailMenuState extends State<EmailMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.75,
-      height: double.infinity,
-      decoration: BoxDecoration(
-        color: Color(0xFF2C241F),
-      ),
+    return Material(
+      color: Color(0xFF2C241F),
       child: SafeArea(
         child: Column(
           children: [
