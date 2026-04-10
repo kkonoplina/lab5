@@ -3,31 +3,97 @@ import 'EmailSkroll.dart';
 import 'EmailScreen.dart';
 
 class EmailMenu extends StatefulWidget {
-  const EmailMenu({super.key});
+  final bool isOpen;
+  final VoidCallback onClose;
+
+  const EmailMenu({super.key, required this.isOpen, required this.onClose});
 
   @override
   State<EmailMenu> createState() => _EmailMenuState();
 }
 
-class _EmailMenuState extends State<EmailMenu> {
+class _EmailMenuState extends State<EmailMenu> with SingleTickerProviderStateMixin {
   String _selectedCategory = 'Несортированные';
+  late AnimationController _animationController;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      duration: Duration(milliseconds: 300),
+      vsync: this,
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: Offset(-1.0, 0.0),
+      end: Offset(0.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+
+    if (widget.isOpen) {
+      _animationController.forward();
+    }
+  }
+
+  @override
+  void didUpdateWidget(EmailMenu oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.isOpen && !oldWidget.isOpen) {
+      _animationController.forward();
+    } else if (!widget.isOpen && oldWidget.isOpen) {
+      _animationController.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Color(0xFF2C241F),
-      child: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(),
-            _buildMainCategories(),
-            _buildDivider(),
-            Expanded(
-              child: _buildAllLabels(),
+    return AnimatedBuilder(
+      animation: _animationController,
+      builder: (context, child) {
+        return SlideTransition(
+          position: _slideAnimation,
+          child: GestureDetector(
+            onTap: widget.onClose,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 2 / 3,
+              height: double.infinity,
+              decoration: BoxDecoration(
+                color: Color(0xFF2C241F),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    blurRadius: 10,
+                    offset: Offset(5, 0),
+                  ),
+                ],
+              ),
+              child: GestureDetector(
+                onTap: () {},
+                child: SafeArea(
+                  child: Column(
+                    children: [
+                      _buildHeader(),
+                      _buildMainCategories(),
+                      _buildDivider(),
+                      Expanded(
+                        child: _buildAllLabels(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -37,6 +103,11 @@ class _EmailMenuState extends State<EmailMenu> {
       padding: EdgeInsets.only(left: 16, right: 16, top: 16),
       child: Row(
         children: [
+          IconButton(
+            onPressed: widget.onClose,
+            icon: Icon(Icons.close, color: Colors.white),
+          ),
+          SizedBox(width: 8),
           Text(
             'Gmail',
             style: TextStyle(
@@ -68,6 +139,7 @@ class _EmailMenuState extends State<EmailMenu> {
             setState(() {
               _selectedCategory = 'Несортированные';
             });
+            widget.onClose();
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => EmailScroll()),
