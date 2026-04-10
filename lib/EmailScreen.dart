@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// 👇 Импортируем экран, на который будем переходить
+import 'EmailScroll.dart';
 
 void main() {
   runApp(const EmailApp());
@@ -37,9 +39,15 @@ class EmailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // 👇 Кнопка "назад" с навигацией на EmailScroll
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const EmailScroll()),
+            );
+          },
         ),
         actions: [
           IconButton(icon: const Icon(Icons.archive_outlined, color: Colors.white), onPressed: () {}),
@@ -62,7 +70,7 @@ class EmailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'gitlab.com sign-in from new location',
+                        'Уведомление от декана ФТМИ ИТМО',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -106,12 +114,12 @@ class EmailScreen extends StatelessWidget {
                             Row(
                               children: const [
                                 Text(
-                                  'GitLab',
+                                  'ФТМИ ИТМО',
                                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                                 ),
                                 SizedBox(width: 8),
                                 Text(
-                                  '10:14',
+                                  '12:24',
                                   style: TextStyle(fontSize: 14, color: Colors.grey),
                                 ),
                               ],
@@ -145,20 +153,10 @@ class EmailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Someone signed in to your gitlab.com account from a new location.',
-                        style: TextStyle(color: Colors.grey, fontSize: 14),
+                        'Поздравляем! С сегодняшнего дня ваша стипендия повышена до 50 600 ₽ в месяц.',
+                        style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                       const SizedBox(height: 20),
-                      
-                      Column(
-                        children: [
-                          _buildDataRow('Hostname', 'gitlab.com'),
-                          _buildDataRow('User', 'Егор Чуриков (echurikov2001)'),
-                          _buildDataRow('IP Address', '185.88.140.55'),
-                          _buildDataRow('Location', 'Lelystad, Netherlands'),
-                          _buildDataRow('Time', '2026-04-10 07:14:53 UTC'),
-                        ],
-                      ),
                       
                       const SizedBox(height: 20),
                       
