@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // 👇 Импортируем экран, на который будем переходить
-import 'EmailScroll.dart';
+import 'EmailSkroll.dart';
 
 void main() {
   runApp(const EmailApp());
@@ -45,7 +45,7 @@ class EmailScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const EmailScroll()),
+              MaterialPageRoute(builder: (context) => const EmailSkroll()),
             );
           },
         ),
