@@ -45,7 +45,7 @@ class EmailScreen extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const EmailSkroll()),
+              MaterialPageRoute(builder: (context) => const EmailScroll()),
             );
           },
         ),
