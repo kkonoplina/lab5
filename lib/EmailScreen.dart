@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// 👇 Импортируем экран, на который будем переходить
+
 import 'EmailSkroll.dart';
 
 void main() {
@@ -39,7 +39,7 @@ class EmailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // 👇 Кнопка "назад" с навигацией на EmailScroll
+        
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
@@ -159,15 +159,10 @@ class EmailScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       
                       const SizedBox(height: 20),
-                      
-                      const Text(
-                        'If you recently signed in and recognize the IP address, you can safely ignore this email.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey, fontSize: 13),
-                      ),
+                    
                       const SizedBox(height: 12),
                       const Text(
-                        'If you did not recently sign in, you should immediately change your password.',
+                        'Если вы не являетесь студентом ФТМИ ИТМО, вероятно, это письмо было отправлено по ошибке.',
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 13),
                       ),
@@ -178,7 +173,6 @@ class EmailScreen extends StatelessWidget {
             ),
           ),
 
-          // Кнопки Ответить и Переслать
           Positioned(
             bottom: 30,
             left: 16,
