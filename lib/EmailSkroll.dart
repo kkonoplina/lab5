@@ -21,6 +21,65 @@ class EmailApp extends StatelessWidget {
 class EmailScroll extends StatelessWidget {
   const EmailScroll({super.key});
 
+  void _openMenu(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: 'EmailMenu',
+      barrierColor: Colors.black.withOpacity(0.35),
+      transitionDuration: const Duration(milliseconds: 300),
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return Align(
+          alignment: Alignment.centerLeft,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 2 / 3,
+            height: double.infinity,
+            child: const EmailMenu(),
+          ),
+        );
+      },
+      transitionBuilder: (context, animation, secondaryAnimation, child) {
+        final offsetAnimation = Tween<Offset>(
+          begin: const Offset(-1, 0),
+          end: Offset.zero,
+        ).animate(
+          CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOut,
+          ),
+        );
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+    );
+  }
+
+  void _openEmailWithSlide(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const EmailScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+
+          final tween = Tween(begin: begin, end: end).chain(
+            CurveTween(curve: Curves.easeInOut),
+          );
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const backgroundColor = Color(0xFF24160F);
@@ -41,14 +100,7 @@ class EmailScroll extends StatelessWidget {
                 children: [
                   InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EmailMenu(),
-                        ),
-                      );
-                    },
+                    onTap: () => _openMenu(context),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Icon(
@@ -63,7 +115,7 @@ class EmailScroll extends StatelessWidget {
                     child: Container(
                       height: 52,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF34241A),
+                        color: Color(0xFF34241A),
                         borderRadius: BorderRadius.circular(28),
                       ),
                       alignment: Alignment.center,
@@ -119,7 +171,11 @@ class EmailScroll extends StatelessWidget {
                     ),
                     child: Row(
                       children: const [
-                        Icon(Icons.touch_app_outlined, color: accentColor, size: 28),
+                        Icon(
+                          Icons.touch_app_outlined,
+                          color: accentColor,
+                          size: 28,
+                        ),
                         SizedBox(width: 12),
                         Expanded(
                           child: Text(
@@ -155,14 +211,7 @@ class EmailScroll extends StatelessWidget {
                     time: '10:14',
                     unreadDot: true,
                     clickable: true,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const EmailScreen(),
-                        ),
-                      );
-                    },
+                    onTap: () => _openEmailWithSlide(context),
                   ),
 
                   _NotificationTile(),
@@ -268,9 +317,7 @@ class EmailScroll extends StatelessWidget {
       ),
       bottomNavigationBar: Container(
         height: 78,
-        decoration: const BoxDecoration(
-          color: backgroundColor,
-        ),
+        color: backgroundColor,
         child: Stack(
           children: [
             Align(
@@ -327,7 +374,7 @@ class EmailScroll extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF9E683B),
+                  color: Color(0xFF9E683B),
                   borderRadius: BorderRadius.circular(18),
                 ),
                 child: Row(

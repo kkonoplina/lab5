@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'EmailSkroll.dart';
-import 'EmailScreen.dart';
 
 class EmailMenu extends StatefulWidget {
   const EmailMenu({super.key});
@@ -15,7 +13,7 @@ class _EmailMenuState extends State<EmailMenu> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Color(0xFF2C241F),
+      color: const Color(0xFF2C241F),
       child: SafeArea(
         child: Column(
           children: [
@@ -34,8 +32,8 @@ class _EmailMenuState extends State<EmailMenu> {
   Widget _buildHeader() {
     return Container(
       height: 80,
-      padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-      child: Row(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+      child: const Row(
         children: [
           Text(
             'Gmail',
@@ -48,7 +46,9 @@ class _EmailMenuState extends State<EmailMenu> {
           Spacer(),
           CircleAvatar(
             radius: 18,
-            backgroundImage: NetworkImage('https://i.pravatar.cc/150?img=12'),
+            backgroundImage: NetworkImage(
+              'https://i.pravatar.cc/150?img=12',
+            ),
           ),
         ],
       ),
@@ -62,23 +62,21 @@ class _EmailMenuState extends State<EmailMenu> {
           icon: Icons.inbox,
           title: 'Несортированные',
           badge: '99+',
-          badgeColor: Color(0xFF5D4E3D),
+          badgeColor: const Color(0xFF5D4E3D),
           isSelected: _selectedCategory == 'Несортированные',
           onTap: () {
             setState(() {
               _selectedCategory = 'Несортированные';
             });
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => EmailScroll()),
-            );
+
+            Navigator.pop(context);
           },
         ),
         _buildCategoryItem(
           icon: Icons.local_offer_outlined,
           title: 'Промоакции',
           badge: '44 нов.',
-          badgeColor: Color(0xFF6B9B6C),
+          badgeColor: const Color(0xFF6B9B6C),
           isSelected: _selectedCategory == 'Промоакции',
           onTap: () {
             setState(() {
@@ -90,7 +88,7 @@ class _EmailMenuState extends State<EmailMenu> {
           icon: Icons.people_outline,
           title: 'Соцсети',
           badge: '5 нов.',
-          badgeColor: Color(0xFF7EB5F5),
+          badgeColor: const Color(0xFF7EB5F5),
           isSelected: _selectedCategory == 'Соцсети',
           onTap: () {
             setState(() {
@@ -102,7 +100,7 @@ class _EmailMenuState extends State<EmailMenu> {
           icon: Icons.info_outline,
           title: 'Оповещения',
           badge: '75 нов.',
-          badgeColor: Color(0xFFE8A87C),
+          badgeColor: const Color(0xFFE8A87C),
           isSelected: _selectedCategory == 'Оповещения',
           onTap: () {
             setState(() {
@@ -116,7 +114,8 @@ class _EmailMenuState extends State<EmailMenu> {
 
   Widget _buildDivider() {
     return Container(
-      padding: EdgeInsets.only(left: 16, top: 16, bottom: 8),
+      width: double.infinity,
+      padding: const EdgeInsets.only(left: 16, top: 16, bottom: 8),
       child: Text(
         'Все ярлыки',
         style: TextStyle(
@@ -251,12 +250,12 @@ class _EmailMenuState extends State<EmailMenu> {
       onTap: onTap,
       child: Container(
         height: 56,
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
         decoration: BoxDecoration(
-          color: isSelected ? Color(0xFF3D342D) : Colors.transparent,
+          color: isSelected ? const Color(0xFF3D342D) : Colors.transparent,
           borderRadius: BorderRadius.circular(28),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
             Icon(
@@ -264,11 +263,12 @@ class _EmailMenuState extends State<EmailMenu> {
               color: Colors.white.withOpacity(0.9),
               size: 24,
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
@@ -277,15 +277,15 @@ class _EmailMenuState extends State<EmailMenu> {
             ),
             if (badge != null)
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: badgeColor,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
                   badge,
-                  style: TextStyle(
-                    fontSize: 12,
+                  style: const TextStyle(
+                    fontSize: 11,
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                   ),
@@ -316,8 +316,8 @@ class _EmailMenuState extends State<EmailMenu> {
       onTap: onTap,
       child: Container(
         height: 56,
-        margin: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(
           children: [
             Icon(
@@ -325,11 +325,12 @@ class _EmailMenuState extends State<EmailMenu> {
               color: Colors.white.withOpacity(0.9),
               size: 24,
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,

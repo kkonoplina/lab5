@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// 👇 Импортируем экран, на который будем переходить
+
 import 'EmailSkroll.dart';
 
 void main() {
@@ -16,11 +16,12 @@ class EmailApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color(0xFF141414),
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFFFDF7FC),
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF141414),
+          backgroundColor: Color(0xFFFDF7FC),
           elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
         ),
       ),
       home: const SizedBox(
@@ -35,37 +36,74 @@ class EmailApp extends StatelessWidget {
 class EmailScreen extends StatelessWidget {
   const EmailScreen({super.key});
 
+  void _goBackWithSlide(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const EmailScroll(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(-1.0, 0.0);
+          const end = Offset.zero;
+
+          final tween = Tween(begin: begin, end: end).chain(
+            CurveTween(curve: Curves.easeInOut),
+          );
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    const Color bgColor = Color(0xFFFDF7FC);
+    const Color textColor = Colors.black;
+    const Color buttonColor = Color(0xFFE2C9B0);
+
     return Scaffold(
+      backgroundColor: bgColor,
       appBar: AppBar(
-        // 👇 Кнопка "назад" с навигацией на EmailScroll
+        backgroundColor: bgColor,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const EmailScroll()),
-            );
-          },
+          icon: const Icon(Icons.arrow_back, color: textColor),
+          onPressed: () => _goBackWithSlide(context),
         ),
         actions: [
-          IconButton(icon: const Icon(Icons.archive_outlined, color: Colors.white), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.delete_outline, color: Colors.white), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.mark_email_read_outlined, color: Colors.white), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.more_vert, color: Colors.white), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.archive_outlined, color: textColor),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.delete_outline, color: textColor),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.mark_email_read_outlined, color: textColor),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.more_vert, color: textColor),
+            onPressed: () {},
+          ),
         ],
       ),
-      
       body: Stack(
         children: [
           SingleChildScrollView(
-            padding: const EdgeInsets.only(bottom: 100),
+            padding: const EdgeInsets.only(bottom: 110),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -74,64 +112,89 @@ class EmailScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: textColor,
                           height: 1.2,
                         ),
                       ),
                       const SizedBox(height: 8),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF3D2E22),
+                          color: Color(0xFF3D2E22),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: const Text(
                           'Входящие',
-                          style: TextStyle(color: Color(0xFFE69568), fontSize: 12),
+                          style: TextStyle(
+                            color: Color(0xFFE69568),
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
+
                 const SizedBox(height: 8),
                 const Divider(color: Colors.grey, height: 1),
 
                 Container(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const CircleAvatar(
                         radius: 24,
                         backgroundColor: Colors.grey,
-                        child: Icon(Icons.person, color: Colors.white, size: 30),
+                        child: Icon(
+                          Icons.person,
+                          color: Colors.white,
+                          size: 30,
+                        ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: const [
+                            const Row(
+                              children: [
                                 Text(
                                   'ФТМИ ИТМО',
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: textColor,
+                                  ),
                                 ),
                                 SizedBox(width: 8),
                                 Text(
                                   '12:24',
-                                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 4),
-                            Row(
+                            const Row(
                               children: [
-                                const Text(
+                                Text(
                                   'КОМУ: мне',
-                                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.grey,
+                                  ),
                                 ),
-                                const Icon(Icons.arrow_drop_down, color: Colors.grey, size: 16),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.grey,
+                                  size: 16,
+                                ),
                               ],
                             ),
                           ],
@@ -145,31 +208,39 @@ class EmailScreen extends StatelessWidget {
                   margin: const EdgeInsets.all(16),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E1E1E),
+                    color: const Color(0xFFF2F2F2),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey.shade800),
+                    border: Border.all(color: Colors.grey.shade400),
                   ),
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Поздравляем! С сегодняшнего дня ваша стипендия повышена до 50 600 ₽ в месяц.',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                      const SizedBox(height: 20),
-                      
-                      const SizedBox(height: 20),
-                      
-                      const Text(
+                      SizedBox(height: 40),
+                      Text(
                         'If you recently signed in and recognize the IP address, you can safely ignore this email.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.grey, fontSize: 13),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 13,
+                        ),
                       ),
-                      const SizedBox(height: 12),
-                      const Text(
+                      SizedBox(height: 12),
+                      Text(
                         'If you did not recently sign in, you should immediately change your password.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white, fontSize: 13),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          color: textColor,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ],
                   ),
@@ -178,7 +249,6 @@ class EmailScreen extends StatelessWidget {
             ),
           ),
 
-          // Кнопки Ответить и Переслать
           Positioned(
             bottom: 30,
             left: 16,
@@ -188,12 +258,24 @@ class EmailScreen extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {},
-                    icon: const Icon(Icons.reply, color: Color(0xFF141414), size: 20),
-                    label: const Text('Ответить', style: TextStyle(color: Color(0xFF141414), fontSize: 16)),
+                    icon: const Icon(
+                      Icons.reply,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    label: const Text(
+                      'Ответить',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE2C9B0),
+                      backgroundColor: buttonColor,
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                       elevation: 0,
                     ),
                   ),
@@ -202,42 +284,29 @@ class EmailScreen extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {},
-                    icon: const Icon(Icons.forward, color: Color(0xFF141414), size: 20),
-                    label: const Text('Переслать', style: TextStyle(color: Color(0xFF141414), fontSize: 16)),
+                    icon: const Icon(
+                      Icons.forward,
+                      color: Colors.black,
+                      size: 20,
+                    ),
+                    label: const Text(
+                      'Переслать',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                      ),
+                    ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFE2C9B0),
+                      backgroundColor: buttonColor,
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                       elevation: 0,
                     ),
                   ),
                 ),
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDataRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 100,
-            child: Text(
-              label,
-              style: const TextStyle(color: Colors.grey, fontSize: 14),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(color: Colors.white, fontSize: 14),
             ),
           ),
         ],
